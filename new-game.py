@@ -67,6 +67,7 @@ def player_movement(x,y,playerstep,step_sound,current_time,last_step_sound,step_
 
 
 while True:
+    # noinspection PyRedeclaration
     current_time = pygame.time.get_ticks()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
