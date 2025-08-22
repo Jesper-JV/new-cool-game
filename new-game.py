@@ -19,15 +19,14 @@ pygame.display.set_caption("Random game")
 class Zombie():
     def __init__(self):
         self.image = pygame.image.load("images/Zombie.jpg")
-        self.x = 900
-        self.y = random.randint(0,600)
+        self.x = 500
+        self.y = 500
         self.speed = 5
     def movement(self, player_x, player_y):
-        self.x += player_x * self.speed
-        self.y += player_y * self.speed
+        self.x += self.speed
     def image_blit(self, screen):
         screen.blit(self.image,(self.x, self.y))
-zombie = Zombie()
+
 def player_movement(x,y,playerstep,step_sound,current_time,last_step_sound,step_sound_cooldown):
     # Handle movement on key press inside event loop
     keys = pygame.key.get_pressed()
@@ -65,7 +64,7 @@ def player_movement(x,y,playerstep,step_sound,current_time,last_step_sound,step_
         y = 0
     return x,y,last_step_sound,current_time
 
-
+zombie = Zombie()
 while True:
     # noinspection PyRedeclaration
     current_time = pygame.time.get_ticks()
