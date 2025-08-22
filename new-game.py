@@ -23,7 +23,7 @@ class Zombie():
         self.x = 500
         self.y = 500
         self.speed = 2
-    def movement(self, player_x, player_y):
+    def movement(self, player_x, player_y,player_health):
         if self.x < player_x:
             self.x += self.speed
         elif self.x > player_x:
@@ -32,6 +32,9 @@ class Zombie():
             self.y += self.speed
         elif self.y > player_y:
             self.y -= self.speed
+        if self.x == player_x and self.y == player_y:
+            player_health -= 10
+        return player_health
     def image_blit(self, screen):
         screen.blit(self.image,(self.x, self.y))
 
@@ -85,13 +88,10 @@ while True:
 
     player_x,player_y,last_step_sound,current_time = player_movement(player_x,player_y,playerstep,step_sound,current_time,
     last_step_sound,step_sound_cooldown)
+    print(player_health)
 
     zombie.image_blit(screen)
-    zombie.movement(player_x,player_y)
-
-
-
-
+    player_health = zombie.movement(player_x,player_y,player_health)
 
     pygame.display.flip()
     clock.tick(60)
