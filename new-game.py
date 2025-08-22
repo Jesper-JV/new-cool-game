@@ -2,7 +2,9 @@ import pygame
 import sys
 import random
 import pdb
+
 pygame.init()
+white = (0,0,0)
 x = 900
 y = 600
 player_health = 100
@@ -17,6 +19,9 @@ step_sound_cooldown = 700
 screen = pygame.display.set_mode((x, y))
 last_step_sound = pygame.time.get_ticks()
 pygame.display.set_caption("Random game")
+
+
+
 class Zombie():
     def __init__(self):
         self.image = pygame.image.load("images/Zombie.jpg")
@@ -32,11 +37,21 @@ class Zombie():
             self.y += self.speed
         elif self.y > player_y:
             self.y -= self.speed
-        if self.x + 50 < player_x < self.x and  self.y + 50 > player_y > self.y:
-            player_health -= 10
+        if self.x < player_x + 50 and self.x > player_x - 50 and self.y < player_y + 50 and self.y > player_y - 50 and player_health > 0:
+            player_health -= 1
         return player_health
     def image_blit(self, screen):
         screen.blit(self.image,(self.x, self.y))
+
+class Text():
+    def __init__(self,size,text,color,x,y,font='freesansbold.ttf'):
+        self.font = pygame.font.SysFont(font,size)
+        self.text = self.font.render(text, True,color)
+        self.text_rect = self.text.get_rect(center=(x,y))
+    def image_blit(self,screen):
+        screen.blit(self.text,self.text_rect)
+    def refresh_text(self,text,color):
+        self.text = self.font.render(str(text), True,color)
 
 def player_movement(x,y,playerstep,step_sound,current_time,last_step_sound,step_sound_cooldown):
     # Handle movement on key press inside event loop
@@ -74,7 +89,7 @@ def player_movement(x,y,playerstep,step_sound,current_time,last_step_sound,step_
     if y < 0:
         y = 0
     return x,y,last_step_sound,current_time
-
+player_health_text = Text(30,str(player_health),white,740,20)
 zombie = Zombie()
 while True:
     # noinspection PyRedeclaration
@@ -89,6 +104,8 @@ while True:
     player_x,player_y,last_step_sound,current_time = player_movement(player_x,player_y,playerstep,step_sound,current_time,
     last_step_sound,step_sound_cooldown)
     print(player_health)
+    player_health_text.image_blit(screen)
+    player_health_text.refresh_text("player health: " + str(player_health),white)
 
     zombie.image_blit(screen)
     player_health = zombie.movement(player_x,player_y,player_health)
