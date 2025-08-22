@@ -5,6 +5,7 @@ import pdb
 pygame.init()
 x = 900
 y = 600
+player_health = 100
 player_x = x // 2
 player_y = y // 2
 clock = pygame.time.Clock()
@@ -21,9 +22,16 @@ class Zombie():
         self.image = pygame.image.load("images/Zombie.jpg")
         self.x = 500
         self.y = 500
-        self.speed = 5
+        self.speed = 2
     def movement(self, player_x, player_y):
-        self.x += self.speed
+        if self.x < player_x:
+            self.x += self.speed
+        elif self.x > player_x:
+            self.x -= self.speed
+        if self.y < player_y:
+            self.y += self.speed
+        elif self.y > player_y:
+            self.y -= self.speed
     def image_blit(self, screen):
         screen.blit(self.image,(self.x, self.y))
 
