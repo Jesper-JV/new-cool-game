@@ -5,7 +5,6 @@ import pdb
 pygame.init()
 x = 900
 y = 600
-yap = 100
 player_x = x // 2
 player_y = y // 2
 clock = pygame.time.Clock()
@@ -17,6 +16,18 @@ step_sound_cooldown = 700
 screen = pygame.display.set_mode((x, y))
 last_step_sound = pygame.time.get_ticks()
 pygame.display.set_caption("Random game")
+class Zombie():
+    def __init__(self):
+        self.image = pygame.image.load("images/Zombie.jpg")
+        self.x = 900
+        self.y = random.randint(0,600)
+        self.speed = 5
+    def movement(self, player_x, player_y):
+        self.x += player_x * self.speed
+        self.y += player_y * self.speed
+    def image_blit(self, screen):
+        screen.blit(self.image,(self.x, self.y))
+zombie = Zombie()
 def player_movement(x,y,playerstep,step_sound,current_time,last_step_sound,step_sound_cooldown):
     # Handle movement on key press inside event loop
     keys = pygame.key.get_pressed()
@@ -66,6 +77,9 @@ while True:
 
     player_x,player_y,last_step_sound,current_time = player_movement(player_x,player_y,playerstep,step_sound,current_time,
     last_step_sound,step_sound_cooldown)
+
+    zombie.image_blit(screen)
+    zombie.movement(player_x,player_y)
 
 
 
