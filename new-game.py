@@ -64,7 +64,7 @@ while True:
     screen.blit(player_img,(player_x,player_y))
 
     player_x,player_y,last_step_sound,current_time = player_movement(player_x,player_y,playerstep,step_sound,current_time,
-last_step_sound,step_sound_cooldown)
+    last_step_sound,step_sound_cooldown)
 
 
 
