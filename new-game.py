@@ -5,13 +5,14 @@ import pdb
 pygame.init()
 x = 900
 y = 600
+yap = 100
 player_x = x // 2
 player_y = y // 2
 clock = pygame.time.Clock()
 player_img = pygame.image.load("images/Player.png")
 bg_img = pygame.image.load("images/grey.jpg")
 step_sound = pygame.mixer.Sound("sounds/step.mp3")
-playerstep = 100
+playerstep = 5
 step_sound_cooldown = 700
 screen = pygame.display.set_mode((x, y))
 last_step_sound = pygame.time.get_ticks()
