@@ -32,8 +32,8 @@ class Zombie():
             self.y += self.speed
         elif self.y > player_y:
             self.y -= self.speed
-        if self.x == player_x and self.y == player_y:
-            player_health -= 10
+        if self.x < player_x + 50 and self.x > player_x - 50 and self.y < player_y + 50 and self.y > player_y - 50 and player_health > 0:
+            player_health -= 1
         return player_health
     def image_blit(self, screen):
         screen.blit(self.image,(self.x, self.y))
