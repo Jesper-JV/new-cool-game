@@ -5,7 +5,7 @@ import pdb
 import math
 
 square_root = math.sqrt(0)
-SwordBaseDamage = 15
+swordBaseDamage = 15
 pygame.init()
 white = (0,0,0)
 x = 900
@@ -23,7 +23,21 @@ step_sound_cooldown = 600
 screen = pygame.display.set_mode((x, y))
 last_step_sound = pygame.time.get_ticks()
 pygame.display.set_caption("Random game")
-
+class Buttons():
+    def __init__(self,img,x,y):
+        self.image = pygame.image.load(img).convert_alpha()
+        self.x = x
+        self.y = y
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x,y)
+    def screenblit(self,screen):
+        screen.blit(self.image,(self.rect.x,self.rect.y))
+    def detection(self):
+        pos = pygame.mouse.get_pos()
+        print(pos)
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1:
+                pass
 # noinspection PyShadowingNames
 class Zombie:
     def __init__(self):
