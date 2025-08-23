@@ -3,12 +3,15 @@ import sys
 import random
 import pdb
 import math
+
 square_root = math.sqrt(0)
+SwordBaseDamage = 15
 pygame.init()
 white = (0,0,0)
 x = 900
 y = 600
 player_health = 100
+zombie_health = 100
 player_x = x // 2
 player_y = y // 2
 clock = pygame.time.Clock()
@@ -28,6 +31,7 @@ class Zombie:
         self.x = 500
         self.y = 500
         self.speed = 2
+        self.health = zombie_health
 
     # noinspection PyShadowingNames
     def movement(self, player_x, player_y,player_health):
@@ -61,28 +65,28 @@ def player_movement(x, y, playerstep, step_sound, current_time, last_step_sound,
 
     if keys[pygame.K_LEFT] or keys[pygame.K_a]:
         moving = True
-        if keys[pygame.K_UP] or keys[pygame.K_DOWN]:
+        if keys[pygame.K_UP] or keys[pygame.K_DOWN] or keys[pygame.K_w] or keys[pygame.K_s]:
             x -= math.sqrt(playerstep * 2)
         else:
             x -= playerstep
 
     if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
         moving = True
-        if keys[pygame.K_UP] or keys[pygame.K_DOWN]:
+        if keys[pygame.K_UP] or keys[pygame.K_DOWN] or keys[pygame.K_w] or keys[pygame.K_s]:
             x += math.sqrt(playerstep * 2)
         else:
             x += playerstep
 
     if keys[pygame.K_UP] or keys[pygame.K_w]:
         moving = True
-        if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT] or keys[pygame.K_a] or keys[pygame.K_d]:
             y -= math.sqrt(playerstep * 2)
         else:
             y -= playerstep
 
     if keys[pygame.K_DOWN] or keys[pygame.K_s]:
         moving = True
-        if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_RIGHT] or keys[pygame.K_a] or keys[pygame.K_d]:
             y += math.sqrt(playerstep * 2)
         else:
             y += playerstep
