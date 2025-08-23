@@ -3,33 +3,37 @@ import sys
 import random
 import pdb
 import math
+pygame.init()
 
 square_root = math.sqrt(0)
-swordBaseDamage = 15
-pygame.init()
+sword_base_damage = 15
 white = (0,0,0)
+red = (255,0,0)
 x = 900
 y = 600
 player_health = 100
 zombie_health = 100
 player_x = x // 2
 player_y = y // 2
+game_status = "ongoing"
 clock = pygame.time.Clock()
 player_img = pygame.image.load("images/Player.png")
 bg_img = pygame.image.load("images/grey.jpg")
 step_sound = pygame.mixer.Sound("sounds/step.mp3")
+game_over_sound = pygame.mixer.Sound("sounds/game_over.mp3")
 playerstep = 5
 step_sound_cooldown = 600
 screen = pygame.display.set_mode((x, y))
 last_step_sound = pygame.time.get_ticks()
 pygame.display.set_caption("Random game")
+
 class Buttons():
     def __init__(self,img,x,y):
         self.image = pygame.image.load(img).convert_alpha()
         self.x = x
         self.y = y
         self.rect = self.image.get_rect()
-        self.rect.topleft = (x,y)
+        self.rect_topleft = (x,y)
     def screenblit(self,screen):
         screen.blit(self.image,(self.rect.x,self.rect.y))
     def detection(self):
@@ -121,7 +125,7 @@ def player_movement(x, y, playerstep, step_sound, current_time, last_step_sound,
         y = 0
 
     return x, y, last_step_sound, current_time
-
+game_over_text = Text(100,"GAME_OVER",red,500,200)
 player_health_text = Text(30,str(player_health),white,740,20)
 zombie = Zombie()
 while True:
@@ -131,17 +135,32 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    screen.blit(bg_img,(0,0))
-    screen.blit(player_img,(player_x,player_y))
-
-    player_x,player_y,last_step_sound,current_time = player_movement(player_x,player_y,playerstep,step_sound,current_time,
-    last_step_sound,step_sound_cooldown)
-
-    player_health_text.image_blit(screen)
-    player_health_text.refresh_text("player health: " + str(player_health),white)
-
-    zombie.image_blit(screen)
+    
     player_health = zombie.movement(player_x,player_y,player_health)
+    if game_status == "ongoing":
+        screen.blit(bg_img,(0,0))
+        screen.blit(player_img,(player_x,player_y))
+
+        player_x,player_y,last_step_sound,current_time = player_movement(player_x,player_y,playerstep,step_sound,current_time,
+        last_step_sound,step_sound_cooldown)
+
+        zombie.image_blit(screen)
+        player_health = zombie.movement(player_x,player_y,player_health)
+   
+       
+        player_health_text.refresh_text("player health: " + str(player_health),white)
+
+        player_health_text.image_blit(screen)
+    if player_health == 0:
+        game_status = "loss"
+        
+ 
+        game_over_sound.play()
+        player_health -= 1
+
+    if game_status == "loss":
+        game_over_text.image_blit(screen)
+
 
     pygame.display.flip()
     clock.tick(60)
